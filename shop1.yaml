@@ -1,0 +1,58 @@
+shop: М-Видео
+categories:
+  - id: 1
+    name: Телефоны
+  - id: 2
+    name: Мониторы
+  - id: 3
+    name: Ноутбуки
+
+goods:
+  - id: 5216292
+    category: 1
+    model: redmi_9
+    name: Xiaomi
+    price: 11359
+    price_rrc: 13500
+    quantity: 24
+    parameters:
+      "Диагональ (дюйм)": 6.53
+      "Разрешение (пикс)": 2340x1080
+      "Встроенная память (Гб)": 64
+      "Цвет": чёрный
+  - id: 5216313
+    category: 1
+    model: redmi_9pro
+    name: Xiaomi
+    price: 20000
+    price_rrc: 21500
+    quantity: 90
+    parameters:
+      "Диагональ (дюйм)": 6.67
+      "Разрешение (пикс)": 2400x1080
+      "Встроенная память (Гб)": 128
+      "Цвет": зелёный
+  - id: 5216226
+    category: 1
+    model: mi_10lite
+    name: Xiaomi
+    price: 21500
+    price_rrc: 24400
+    quantity: 15
+    parameters:
+      "Диагональ (дюйм)": 6.57
+      "Разрешение (пикс)": 2400x1080
+      "Встроенная память (Гб)": 128
+      "Цвет": серый космос
+  - id: 5672670
+    category: 1
+    model: poco_f2pro
+    name: Xiaomi
+    price: 25000
+    price_rrc: 29800
+    quantity: 17
+    parameters:
+      "Диагональ (дюйм)": 6.67
+      "Разрешение (пикс)": 2400x1080
+      "Встроенная память (Гб)": 128
+      "Цвет": синий
