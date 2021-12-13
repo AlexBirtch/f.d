@@ -150,8 +150,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER = 'EMAIL@gmail.com'  # указать почту с которой будет отправляться письмо
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'docs@afia.uno'  # указать почту с которой будет отправляться письмо
+EMAIL_HOST = 'smtp.afia.uno'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = 'PASSWORD'  # пароль от указанной выше почты

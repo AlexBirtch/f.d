@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from accounts.forms import UserAdminCreationForm
 
 
-
+'''Вьюха регистрации '''
 # @login_required()
 def registerView(req):
     form = UserAdminCreationForm()

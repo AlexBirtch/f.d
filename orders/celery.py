@@ -15,6 +15,8 @@ app.autodiscover_tasks()
 # celery -A orders worker -l INFO -P eventlet
 # service redis-server start
 # сначала redis, затем celery
+
+
 @app.task
 def send_confirm_mail(data):
     send_mail('Title', f'Заказ {data["name"]}\nсменил статус на "{data["status"]}"',
