@@ -10,17 +10,17 @@ from .models import Contact
 from .serializers import UserRegSerializer, ContactSerializer
 
 
+'''Вьюха для приветствия при регистрации'''
 def profileView(request):
-    '''вьюха для приветствия при регистрации'''
     template = 'accounts/index.html'
     context = {'user': request.user}
     return render(request, template, context)
 
 
 # https://www.youtube.com/watch?v=ddB83a4jKSY&t=1829s
+'''отображения данных в зависимости от типа пользователя'''
 @permission_classes([IsAuthenticated,])
 class RestrictedApiView(APIView):
-    '''пример для отображения данных в зависимости от типа пользователя'''
     def get(self, request, *args, **kwargs):
         if request.user.type == 'buyer':
             data = f'{request.user}, Вы покупатель'
@@ -29,8 +29,8 @@ class RestrictedApiView(APIView):
         return Response(data)
 
 
-#https://www.youtube.com/watch?v=_OhF6FEdIao&list=PLgCYzUzKIBE9Pi8wtx8g55fExDAPXBsbV&index=6
-# 11:10
+#https://www.youtube.com/watch?v=_OhF6FEdIao&list=PLgCYzUzKIBE9Pi8wtx8g55fExDAPXBsbV&index=6   # 11:10
+'''вьюха Регистрации '''
 class RegistrationView(APIView):
     def post(self, request):
         serializer = UserRegSerializer(data=request.data)
@@ -44,6 +44,7 @@ class RegistrationView(APIView):
         return Response(data)
 
 
+'''Вьюха контактной информации с проверкой / возможность создания инфы'''
 @permission_classes([IsAuthenticated])
 class ContactView(APIView):
     def get(self, request):

@@ -3,21 +3,19 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+'''типы пользователей'''
 USER_TYPE_CHOICES = (
     ('shop', 'Магазин'),
     ('buyer', 'Покупатель'),)
 
 
+''' Миксин для управления пользователями / создание пользователя и суперпользователя '''
 class UserManager(BaseUserManager):
-    """
-    Миксин для управления пользователями
-    """
     use_in_migrations = True
 
+
+    ''' Функция проверки при создании и сохранения пользователя когда предоставлены  email, and password'''
     def _create_user(self, email, password, **extra_fields):
-        """
-        Create and save a user with the given username, email, and password.
-        """
         if not email:
             raise ValueError('The given email must be set')
         if not password:
@@ -27,12 +25,13 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-
+    '''Создание пользователя'''
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
 
+    '''Функция создания супер пользователя'''
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -46,10 +45,10 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+
+'''Стандартная модель пользователей'''
 class User(AbstractUser):
-    """
-    Стандартная модель пользователей
-    """
+
     REQUIRED_FIELDS = []
     objects = UserManager()
     USERNAME_FIELD = 'email'
@@ -75,7 +74,7 @@ class User(AbstractUser):
         verbose_name_plural = 'Список пользователей'
         ordering = ['id']
 
-
+'''Модель Контактной информации пользователя'''
 class   Contact(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь',
                              related_name='contacts', blank=True,

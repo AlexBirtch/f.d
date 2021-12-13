@@ -8,9 +8,8 @@ from django.contrib.auth import get_user_model
 # https://www.youtube.com/watch?v=SbU2wdPIcaY&t=364s
 from .models import Contact
 
-
+"""Определение модели администратора для пользовательской модели пользователя без поля username."""
 class UserAdmin(UserAdmin):
-    """Define admin model for custom User model with no username field."""
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'company', 'position', 'type')}),
@@ -31,7 +30,7 @@ class UserAdmin(UserAdmin):
 
 admin.site.register(get_user_model(), UserAdmin)
 
-
+'''кантакты администраторов при условии выполнения входа '''
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'city', 'street', 'phone']

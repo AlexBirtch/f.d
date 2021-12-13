@@ -11,8 +11,9 @@ class UserCreateSerializer(UserCreateSerializer):
 
 #https://www.youtube.com/watch?v=_OhF6FEdIao&list=PLgCYzUzKIBE9Pi8wtx8g55fExDAPXBsbV&index=6
 # 08:12
+'''Кастомная реализация регистрации нового пользователя / С ПРОВЕРКОЙ совпадения паролей 1 и 2'''
 class UserRegSerializer(serializers.ModelSerializer):
-    '''кастоа реализация регистрации нового пользователя'''
+
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta:
@@ -32,7 +33,7 @@ class UserRegSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-
+'''Реализация контактной информации '''
 class ContactSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
