@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-
+'''Проверка прав доступа / Доступно только для представителей магазинов'''
 class IsShop(permissions.BasePermission):
     message = 'Данный функционал доступен только представителям магазинов.'
 

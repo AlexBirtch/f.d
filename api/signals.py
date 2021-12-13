@@ -4,7 +4,8 @@
 # from django_rest_passwordreset.signals import reset_password_token_created
 #
 # from .models import ConfirmEmailToken, User
-#
+
+'''Сигнал регистрации пользователя '''
 # new_user_registered = Signal(
 #     providing_args=['user_id'],
 # )
@@ -13,7 +14,7 @@
 #     providing_args=['user_id'],
 # )
 #
-#
+'''Восстановление пароля по почте'''
 # @receiver(reset_password_token_created)
 # def password_reset_token_created(sender, instance, reset_password_token, **kwargs):
 #     """
@@ -39,7 +40,7 @@
 #     )
 #     msg.send()
 #
-#
+'''Сигнал регистрации нового пользователя / подтверждение по почте'''
 # @receiver(new_user_registered)
 # def new_user_registered_signal(user_id, **kwargs):
 #     """
@@ -60,7 +61,7 @@
 #     )
 #     msg.send()
 #
-#
+'''Сигнал о создании / изменении заказа'''
 # @receiver(new_order)
 # def new_order_signal(user_id, **kwargs):
 #     """

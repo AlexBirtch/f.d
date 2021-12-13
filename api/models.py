@@ -7,6 +7,7 @@ from django_rest_passwordreset.tokens import get_token_generator
 
 from accounts.models import User
 
+'''информация о статусах заказов'''
 # STATE_CHOICES = (
 #     ('basket', 'Статус корзины'),
 #     ('new', 'Новый'),
@@ -20,7 +21,7 @@ from accounts.models import User
 
 
 #
-#
+'''Класс описания контактной информации пользователя'''
 # class Contact(models.Model):
 #     user = models.ForeignKey(User, verbose_name='Пользователь',
 #                              related_name='contacts', blank=True,
@@ -41,7 +42,7 @@ from accounts.models import User
 #     def __str__(self):
 #         return f'{self.city} {self.street} {self.house}'
 #
-#
+'''Класс описания создания заказов'''
 # class Order(models.Model):
 #     user = models.ForeignKey(User, verbose_name='Пользователь',
 #                              related_name='orders', blank=True,
@@ -54,7 +55,7 @@ from accounts.models import User
 #
 #     class Meta:
 #         verbose_name = 'Заказ'
-#         verbose_name_plural = "Список заказ"
+#         verbose_name_plural = "Список заказов"
 #         ordering = ('-dt',)
 #
 #     def __str__(self):
@@ -64,7 +65,7 @@ from accounts.models import User
 #     # def sum(self):
 #     #     return self.ordered_items.aggregate(total=Sum("quantity"))["total"]
 #
-#
+'''Класс ордер заказов / инфо о продуктах / количестве товаров / список заказанных позиций'''
 # class OrderItem(models.Model):
 #     order = models.ForeignKey(Order, verbose_name='Заказ', related_name='ordered_items', blank=True,
 #                               on_delete=models.CASCADE)
@@ -81,7 +82,7 @@ from accounts.models import User
 #             models.UniqueConstraint(fields=['order_id', 'product_info'], name='unique_order_item'),
 #         ]
 #
-#
+'''Подтверждение и создание токена eMail'''
 # class ConfirmEmailToken(models.Model):
 #     class Meta:
 #         verbose_name = 'Токен подтверждения Email'
@@ -104,7 +105,7 @@ from accounts.models import User
 #         verbose_name=_("When was this token generated")
 #     )
 #
-#     # Key field, though it is not the primary key of the model
+'''Key field, though it is not the primary key of the model'''
 #     key = models.CharField(
 #         _("Key"),
 #         max_length=64,
