@@ -22,21 +22,21 @@ from shop.serializers import (ShopDetailSerializer, ShopCreteSerializer,
 from rest_framework.permissions import IsAuthenticated
 
 
+"""создание магазина"""
 class ShopCreateView(generics.CreateAPIView):
-    """создание магазина"""
     serializer_class = ShopCreteSerializer
     permission_classes = (IsAuthenticated, IsShop)
 
 
+"""представление всех магазинов"""
 class ShopsListView(generics.ListAPIView):
-    """представление всех магазинов"""
     queryset = Shop.objects.all()
     serializer_class = ShopsListSerializer
     # permission_classes = (IsAdminUser,)
 
 
+"""детальное представление магазина"""
 class ShopDetailView(viewsets.ModelViewSet):
-    """детальное представление магазина"""
     serializer_class = ShopDetailSerializer
 
     def get_queryset(self):
@@ -44,11 +44,9 @@ class ShopDetailView(viewsets.ModelViewSet):
         return shop
 
 
-class ShopBaseView(APIView):
-    """
-    базовое представление магазина с возможностью редактирования и удаления
-    """
 
+'''Базовое представление магазина с возможностью редактирования и удаления'''
+class ShopBaseView(APIView):
     @staticmethod
     def get(request):
         try:
@@ -78,29 +76,21 @@ class ShopBaseView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# https://www.youtube.com/watch?v=C6S3dMt1s_M&t=5074s   at 1:24:55
-# class ShopUpdateView(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = ShopDetailSerializer
-#     queryset = Shop.objects.all()
-#     permission_classes = (IsShopOwnerOrReadOnly,)
-# тут у меня не заработало как надо....
-
-
+'''все категории'''
 class CategoryListView(generics.ListAPIView):
-    """все категории"""
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 
+"""все товары"""
 class ProductListView(generics.ListAPIView):
-    """все товары"""
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     pagination_class = PageNumberPagination
 
 
+"""получаем заказы магазина с возможностью изменения статуса заказа"""
 class ShopOrdersView(viewsets.ModelViewSet):
-    """получаем заказы магазина с возможностью изменения статуса заказа"""
     serializer_class = ShopOrderSerializer
     queryset = ItemInOrder.objects.all()
 
@@ -109,13 +99,13 @@ class ShopOrdersView(viewsets.ModelViewSet):
         shop = Shop.objects.get(user=shop_owner)
         order = Order.objects.filter(ordered_items__shop=shop).exclude(status='В корзине')
 
-        # отправка письма
+        '''отправка письма'''
         if self.request.method == 'PUT':
             # send_mail('Title', f'Заказ {order.first()}\nсменил статус на "{order.first().status}"',
-            #           EMAIL_HOST_USER, ['tihon49@gmail.com'], fail_silently=False)
+            #           EMAIL_HOST_USER, ['birtch@afia.uno'], fail_silently=False)
             name = str(order.first().created)
             status = self.request.data['status']
-            email = ['tihon49@gmail.com']
+            email = ['birtch@afia.uno']
             send_confirm_mail.delay({'name': name,
                                      'status': status,
                                      'email': email
@@ -123,10 +113,9 @@ class ShopOrdersView(viewsets.ModelViewSet):
         return order
 
 
+
+'''Импорт списка товаров из yaml'''
 class ShopUpdateView(APIView):
-    """
-    Импорт списка товаров из yaml
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):

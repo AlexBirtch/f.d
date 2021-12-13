@@ -3,6 +3,7 @@ from django.db import models
 from accounts.models import User
 
 
+'''описание магазина'''
 class Shop(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название')
     url = models.URLField(verbose_name='Ссылка', null=True, blank=True)
@@ -20,6 +21,7 @@ class Shop(models.Model):
         return self.name
 
 
+'''описание категорий магазинов'''
 class Category(models.Model):
     name = models.CharField(max_length=40, verbose_name='Название')
     shops = models.ManyToManyField(Shop, verbose_name='Магазины', related_name='categories',
@@ -34,6 +36,7 @@ class Category(models.Model):
         return self.name
 
 
+'''описание брендов представленных в магазинах'''
 class Brand(models.Model):
     name = models.CharField('Торговая марка', max_length=80)
 
@@ -45,6 +48,7 @@ class Brand(models.Model):
         verbose_name_plural = 'Торговые марки'
 
 
+'''описание самих продуктов/товаров (информация о товаре)'''
 class Product(models.Model):
     name = models.ForeignKey(Brand, verbose_name='Торговая марка', related_name='brand_products',
                              on_delete=models.CASCADE)
@@ -71,6 +75,7 @@ class Product(models.Model):
         return f'{self.name} | model: {self.model} | Shop: {self.shop}'
 
 
+'''описание параметров'''
 class Parameter(models.Model):
     name = models.CharField(max_length=40, verbose_name='Название')
 
@@ -83,6 +88,7 @@ class Parameter(models.Model):
         return self.name
 
 
+'''описание параметров товаров'''
 class ProductParameter(models.Model):
     product_info = models.ForeignKey(Product, verbose_name='Информация о продукте',
                                      related_name='product_info_parameters', blank=True,

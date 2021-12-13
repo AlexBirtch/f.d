@@ -4,19 +4,21 @@ from buyer.models import ItemInOrder, Order
 from .models import Shop, Category, Product, Parameter, ProductParameter
 
 
+'''сериализатор для рекурсивного вывода вложенных данных'''
 class RecursiveField(serializers.Serializer):
-    '''сериализатор для рекурсивного вывода вложенных данных'''
     def to_representation(self, instance):
         serializer = self.parent.parent.__class__(instance, context=self.context)
         return serializer.data
 
 
+'''сериализатор категорий '''
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'name')
 
 
+'''сериализатор параметров продуктов'''
 class ProductParameterSerializer(serializers.ModelSerializer):
     parameter = serializers.StringRelatedField()
 
@@ -25,6 +27,7 @@ class ProductParameterSerializer(serializers.ModelSerializer):
         fields = ['parameter', 'value']
 
 
+'''сериализатор продуктов'''
 class ProductSerializer(serializers.ModelSerializer):
     shop = serializers.StringRelatedField(read_only=True)
     category = serializers.StringRelatedField()
@@ -37,6 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   'price', 'price_rrc', 'product_info_parameters')
 
 
+'''сериализатор создания магазина'''
 class ShopCreteSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
@@ -53,6 +57,7 @@ class ShopBaseSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'url', 'user']
 
 
+'''сериализатор детальной инфы магазина'''
 class ShopDetailSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(slug_field='email', read_only=True)
     categories = CategorySerializer(read_only=True, many=True)
@@ -72,6 +77,7 @@ class ShopsListSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'state', 'url', 'user']
 
 
+'''сериализатор ордеров магазина'''
 class ShopOrderSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
     contact = serializers.StringRelatedField()
