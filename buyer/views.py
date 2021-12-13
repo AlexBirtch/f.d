@@ -8,9 +8,9 @@ from accounts.serializers import ContactSerializer
 from .models import Order, ItemInOrder
 from .serializers import OrderSerializer, OrderItemSerializer, OrderItemAddSerializer
 
-
+'''Вывод заказа/корзины пользователя'''
 class OrderSerializerView(APIView):
-    '''вывод заказа/корзины пользователя'''
+
 
     def get(self, request):
         user = request.user
@@ -22,9 +22,9 @@ class OrderSerializerView(APIView):
             return Response({'response': f'Уважаемый {request.user}, Ваша корзина пока пуста.',
                              'help_info': 'Перейдите по ссылке http://127.0.0.1:8000/api/v1/cart/create/'})
 
-
+'''Добавление товара в заказ'''
 class AddItemInOrderView(generics.CreateAPIView):
-    '''добавить товар в заказ'''
+
     serializer_class = OrderItemAddSerializer
 
     def get_queryset(self):
@@ -34,8 +34,8 @@ class AddItemInOrderView(generics.CreateAPIView):
         return item
 
 
+'''Вывод заказанных товаров из заказа/корзины'''
 class ItemsInOrderView(viewsets.ModelViewSet):
-    '''вывод заказанных товаров из заказа/корзины'''
     serializer_class = OrderItemSerializer
     queryset = ItemInOrder.objects.all()
 
@@ -45,18 +45,8 @@ class ItemsInOrderView(viewsets.ModelViewSet):
         return items
 
 
-# class OrderCreateView(viewsets.ModelViewSet):
-#     '''создать заказ'''
-#     serializer_class = OrderCreateSerializer
-#     queryset = Order.objects.all()
-#
-#     def get_queryset(self):
-#         order = Order.objects.filter(user=self.request.user, status='В корзине')
-#         return order
-
-
+"""создать заказ"""
 class OrderCreateView(APIView):
-    """создать заказ"""
 
     def get(self, request):
         return Response({'info': "Необходимо зарегистрироваться как buyer"
@@ -73,6 +63,7 @@ class OrderCreateView(APIView):
             return Response({'response': e})
 
 
+'''Подтверждение заказа в корзине / или вывод help_info'''
 class CartConfirmView(APIView):
     def get(self, request):
         user = request.user
@@ -87,8 +78,8 @@ class CartConfirmView(APIView):
                              'help_info': 'Перейдите по ссылке http://127.0.0.1:8000/api/v1/cart/create/'})
 
 
+"""Отображние / Создание / Редактирование контакта пользователя Buyer"""
 class ContactView(viewsets.ModelViewSet):
-    """отображние/создание/редактирование контакта пользователя buyer"""
     serializer_class = ContactSerializer
 
     def get_queryset(self):

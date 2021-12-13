@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from shop.models import Category, Shop, Product, Brand
 from accounts.models import User, Contact
 
+'''Статусы Заказов'''
 STATE_CHOICES = (
     ('В корзине', 'В корзине'),
     ('Подтвержден', 'Подтвержден'),
@@ -13,8 +14,8 @@ STATE_CHOICES = (
 )
 
 
+''' Описание Модели заказа'''
 class Order(models.Model):
-    '''модел заказа'''
     user = models.ForeignKey(User, verbose_name='Пользователь', related_name='shopAPI', blank=True,
                              on_delete=models.CASCADE)
     status = models.CharField(verbose_name='Статус', choices=STATE_CHOICES, max_length=15, default='В корзине')
@@ -34,9 +35,8 @@ class Order(models.Model):
     def __str__(self):
         return f'{str(self.created)} : {self.user} : {self.status} {self.is_active}'
 
-
+'''Модель товара в заказе'''
 class ItemInOrder(models.Model):
-    '''модель товара в заказе'''
     order = models.ForeignKey(Order, verbose_name='Заказ', related_name='ordered_items', blank=True,
                               on_delete=models.CASCADE)
     category = models.ForeignKey(Category, verbose_name='Категория товара', blank=True, null=True,
@@ -53,9 +53,6 @@ class ItemInOrder(models.Model):
     class Meta:
         verbose_name = 'Товар в заказе'
         verbose_name_plural = "Товары в заказе"
-        # constraints = [
-        #     models.UniqueConstraint(fields=['order_id', 'product_name'], name='unique_order_item'),
-        # ]
 
     def __str__(self):
         return str(self.product_name)
@@ -72,33 +69,33 @@ class ItemInOrder(models.Model):
 
 # 1) source: https://www.youtube.com/watch?v=3wFpyKcVT_w&list=PLSWnD6rL-m9adebgpvvOLH5ASGJiznWdg&index=7  17:25
 # 2) source: https://www.youtube.com/watch?v=Kc1Q_ayAeQk
+'''функция перезаписи данных в модели товара в заказе'''
 @receiver(post_save, sender=ItemInOrder)
 def item_in_order_post_save(sender, instance, created, **kwargs):
-    '''функция перезаписи данных в модели товара в заказе'''
     all_items_in_order = ItemInOrder.objects.filter(order=instance.order)
     order_total_price = 0
     total_items_count_in_order = 0
 
     for item in all_items_in_order:
-        #обновляем кол-во и общую стоимость товаров
+        '''обновляем кол-во и общую стоимость товаров'''
         order_total_price += item.total_price
         total_items_count_in_order += item.quantity
 
     instance.order.total_price = order_total_price
     instance.order.total_items_count = total_items_count_in_order
     instance.order.save(force_update=True)
-# post_save.connect(item_in_order_post_save, sender=ItemInOrder)
 
 
+
+'''функция обновления цены и кол-ва товара в заказе при удалении из него какой-то позиции'''
 @receiver(post_delete, sender=ItemInOrder)
 def item_in_order_post_delete(sender, instance, created=False, **kwargs):
-    '''функция обновления цены и кол-ва товара в заказе при удалении из него какой-то позиции'''
     all_items_in_order = ItemInOrder.objects.filter(order=instance.order)
     order_total_price = 0
     total_items_count_in_order = 0
 
     for item in all_items_in_order:
-        # обновляем кол-во и общую стоимость товаров
+        '''обновляем кол-во и общую стоимость товаров'''
         order_total_price += item.total_price
         total_items_count_in_order += item.quantity
 
